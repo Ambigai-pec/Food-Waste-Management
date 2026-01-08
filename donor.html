@@ -10,39 +10,48 @@
     <p>Post food details for donation</p>
 
     <form id="foodForm">
-        <label>Food Name</label>
-        <input type="text" id="foodName" required>
+    <label>Food Name</label>
+    <input type="text" id="foodName" required>
 
-        <label>Food Type</label>
-        <select id="foodType">
-            <option>Veg</option>
-            <option>Non-Veg</option>
-        </select>
+    <label>Food Type</label>
+    <select id="foodType">
+        <option>Veg</option>
+        <option>Non-Veg</option>
+    </select>
 
-        <label>Quantity (plates)</label>
-        <input type="number" id="quantity" required>
+    <label>Number of People</label>
+    <input type="number" id="numPeople" required>
 
-        <label>Expiry Time</label>
-        <input type="time" id="expiry" required>
+    <label>Pickup Location</label>
+    <input type="text" id="location" placeholder="Enter your location" required>
 
-        <label>Pickup Location</label>
-        <input type="text" id="location" required>
+    <label>Can you deliver the food yourself?</label>
+    <select id="selfDeliver">
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+    </select>
 
-        <button type="submit">Post Food</button>
-    </form>
+    <button type="submit">Add Donation</button>
+</form>
+
 
     <h2>📋 Posted Food List</h2>
-    <table>
+    <h2>📋 Posted Donations</h2>
+<table>
+    <thead>
         <tr>
             <th>Food</th>
             <th>Type</th>
-            <th>Qty</th>
-            <th>Expiry</th>
+            <th>People</th>
             <th>Location</th>
+            <th>NGO</th>
+            <th>Volunteer</th>
             <th>Status</th>
         </tr>
-        <tbody id="foodList"></tbody>
-    </table>
+    </thead>
+    <tbody id="foodList"></tbody>
+</table>
+
 
     <script src="js/donor.js"></script>
 
