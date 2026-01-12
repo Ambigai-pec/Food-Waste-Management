@@ -1,84 +1,66 @@
-<<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Donor Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<h1>🍱 Donor Dashboard – Food Waste Management</h1>
+<h2>🍱 Food Waste Management – Donor</h2>
 
-<!-- Donation Form -->
-<form id="foodForm">
+<!-- LOGIN -->
+<div id="loginBox">
+    <input type="text" id="donorName" placeholder="Enter Your Name">
+    <button onclick="login()">Login</button>
+</div>
 
-    <!-- Smart Food Selection -->
-    <label>Select Food</label>
-    <select id="foodName">
-        <option>Cooked Rice</option>
-        <option>Biryani</option>
-        <option>Chapati</option>
-        <option>Sambar</option>
-        <option>Curry</option>
-        <option>Packed Food</option>
-        <option>Fruits</option>
-        <option>Mixed Food</option>
-    </select>
+<!-- DASHBOARD -->
+<div id="dashboard" style="display:none;">
 
-    <!-- Food Type -->
-    <label>Food Type</label>
-    <select id="foodType">
-        <option>Veg</option>
-        <option>Non-Veg</option>
-    </select>
+<h3>Post Food Donation</h3>
 
-    <!-- People Slider -->
-    <label>Number of People</label>
-    <input type="range" id="people" min="5" max="100" step="5" value="20">
-    <span id="peopleCount">20</span>
+<select id="foodName">
+    <option>Cooked Rice</option>
+    <option>Biryani</option>
+    <option>Chapati</option>
+    <option>Packed Food</option>
+    <option>Fruits</option>
+</select>
 
-    <!-- Expiry -->
-    <label>Expiry Time</label>
-    <input type="datetime-local" id="expiry" required>
+<select id="foodType">
+    <option>Veg</option>
+    <option>Non-Veg</option>
+</select>
 
-    <!-- Location -->
-    <label>Pickup Location</label>
-    <button type="button" onclick="getLocation()">📍 Use My Location</button>
-    <input type="text" id="location" placeholder="Location will appear here" required>
+<input type="number" id="quantity" placeholder="No. of People">
+<input type="time" id="expiry">
 
-    <!-- Delivery Choice -->
-    <label>Can you deliver the food?</label>
-    <select id="delivery">
-        <option value="yes">Yes</option>
-        <option value="no">No</option>
-    </select>
+<input type="text" id="location" placeholder="Enter Location">
+<button onclick="autoLocation()">📍 Auto Location</button>
 
-    <!-- Optional Photo -->
-    <label>Upload Food Photo (Optional)</label>
-    <input type="file" accept="image/*">
+<select id="delivery">
+    <option>Self Delivery</option>
+    <option>Assign Volunteer</option>
+</select>
 
-    <button type="submit">Add Donation</button>
-</form>
+<label>
+<input type="checkbox" id="safety"> I follow food safety guidelines
+</label>
 
-<hr>
+<button onclick="postDonation()">Donate Food</button>
 
-<!-- Donation History -->
-<h2>📋 Donation History</h2>
-<table border="1">
-    <thead>
-        <tr>
-            <th>Food</th>
-            <th>Type</th>
-            <th>People</th>
-            <th>Expiry</th>
-            <th>Location</th>
-            <th>NGO</th>
-            <th>Volunteer</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody id="donationTable"></tbody>
+<h3>Nearby NGO Requirements</h3>
+<table>
+<tr>
+<th>NGO</th><th>Food</th><th>Meals</th><th>Urgency</th><th>Action</th>
+</tr>
+<tbody id="ngoList"></tbody>
 </table>
+
+<h3>My Donations</h3>
+<ul id="history"></ul>
+
+</div>
 
 <script src="js/donor.js"></script>
 </body>
