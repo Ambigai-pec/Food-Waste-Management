@@ -1,59 +1,85 @@
-<!DOCTYPE html>
-<html>
+<<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Donor Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <h1>🍱 Donor Dashboard</h1>
-    <p>Post food details for donation</p>
+<h1>🍱 Donor Dashboard – Food Waste Management</h1>
 
-    <form id="foodForm">
-    <label>Food Name</label>
-    <input type="text" id="foodName" required>
+<!-- Donation Form -->
+<form id="foodForm">
 
+    <!-- Smart Food Selection -->
+    <label>Select Food</label>
+    <select id="foodName">
+        <option>Cooked Rice</option>
+        <option>Biryani</option>
+        <option>Chapati</option>
+        <option>Sambar</option>
+        <option>Curry</option>
+        <option>Packed Food</option>
+        <option>Fruits</option>
+        <option>Mixed Food</option>
+    </select>
+
+    <!-- Food Type -->
     <label>Food Type</label>
     <select id="foodType">
         <option>Veg</option>
         <option>Non-Veg</option>
     </select>
 
+    <!-- People Slider -->
     <label>Number of People</label>
-    <input type="number" id="numPeople" required>
+    <input type="range" id="people" min="5" max="100" step="5" value="20">
+    <span id="peopleCount">20</span>
 
+    <!-- Expiry -->
+    <label>Expiry Time</label>
+    <input type="datetime-local" id="expiry" required>
+
+    <!-- Location -->
     <label>Pickup Location</label>
-    <input type="text" id="location" placeholder="Enter your location" required>
+    <button type="button" onclick="getLocation()">📍 Use My Location</button>
+    <input type="text" id="location" placeholder="Location will appear here" required>
 
-    <label>Can you deliver the food yourself?</label>
-    <select id="selfDeliver">
+    <!-- Delivery Choice -->
+    <label>Can you deliver the food?</label>
+    <select id="delivery">
         <option value="yes">Yes</option>
         <option value="no">No</option>
     </select>
 
+    <!-- Optional Photo -->
+    <label>Upload Food Photo (Optional)</label>
+    <input type="file" accept="image/*">
+
     <button type="submit">Add Donation</button>
 </form>
 
+<hr>
 
-    <h2>📋 Posted Food List</h2>
-    <h2>📋 Posted Donations</h2>
-<table>
+<!-- Donation History -->
+<h2>📋 Donation History</h2>
+<table border="1">
     <thead>
         <tr>
             <th>Food</th>
             <th>Type</th>
             <th>People</th>
+            <th>Expiry</th>
             <th>Location</th>
             <th>NGO</th>
             <th>Volunteer</th>
             <th>Status</th>
         </tr>
     </thead>
-    <tbody id="foodList"></tbody>
+    <tbody id="donationTable"></tbody>
 </table>
 
-
-    <script src="js/donor.js"></script>
-
+<script src="js/donor.js"></script>
 </body>
 </html>
