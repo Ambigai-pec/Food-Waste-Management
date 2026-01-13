@@ -1,104 +1,90 @@
-// Firebase imports (browser safe)
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  addDoc
-} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+// ---------- SAMPLE NGO REQUESTS (SIMULATES NGO PAGE) ----------
+if (!localStorage.getItem("ngoRequests")) {
+  localStorage.setItem("ngoRequests", JSON.stringify([
+    { id: 1, name: "Helping Hands", food: "Rice", quantity: 200, location: "Chennai" },
+    { id: 2, name: "Food For All", food: "Chapati", quantity: 100, location: "Bangalore" }
+  ]));
+}
 
-// 🔥 Firebase Config
-const firebaseConfig = {
-  apiKey: "AIzaSyCIfWAFvJis9H7R33cKIQbC0WlGQtMbqK8",
-  authDomain: "food-waste-management-9e874.firebaseapp.com",
-  projectId: "food-waste-management-9e874",
-  storageBucket: "food-waste-management-9e874.firebasestorage.app",
-  messagingSenderId: "973744619806",
-  appId: "1:973744619806:web:5f73e68be332dd4edb490f"
-};
+let donations = JSON.parse(localStorage.getItem("donations")) || [];
+let mealsSaved = Number(localStorage.getItem("mealsSaved")) || 0;
 
-// Init
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-// 🔹 Load NGO Requests
-async function loadNGOs() {
+// ---------- LOAD NGO REQUESTS ----------
+function loadNGOs() {
   const ngoList = document.getElementById("ngoList");
-  const ngoSelect = document.getElementById("selectedNgo");
-
   ngoList.innerHTML = "";
-  ngoSelect.innerHTML = "";
 
-  const snapshot = await getDocs(collection(db, "ngo_requests"));
+  const ngos = JSON.parse(localStorage.getItem("ngoRequests"));
 
-  snapshot.forEach(doc => {
-    const ngo = doc.data();
-
-    // List view
+  ngos.forEach(ngo => {
     const li = document.createElement("li");
-    li.innerText = `${ngo.ngoName} → Needs ${ngo.quantity} meals (${ngo.foodNeeded})`;
+    li.innerHTML = `
+      <strong>${ngo.name}</strong><br>
+      Needs: ${ngo.food} (${ngo.quantity} meals)<br>
+      Location: ${ngo.location}<br>
+      <button onclick="selectNGO(${ngo.id})">Donate to this NGO</button>
+    `;
     ngoList.appendChild(li);
-
-    // Dropdown
-    const option = document.createElement("option");
-    option.value = doc.id;
-    option.text = ngo.ngoName;
-    ngoSelect.appendChild(option);
   });
-
-  if (snapshot.empty) {
-    ngoList.innerHTML = "<li>No NGO requests available</li>";
-  }
 }
 
-// 🔹 Post Donation
-window.postDonation = async function () {
+// ---------- POST DONATION ----------
+function postDonation() {
+  let foods = [];
+  document.querySelectorAll(".checkbox-group input[type=checkbox]:checked")
+    .forEach(cb => foods.push(cb.value));
 
-  const donorName = donorNameInput();
-  const donorPhone = donorPhoneInput();
-  const donorLocation = donorLocationInput();
-  const quantity = document.getElementById("quantity").value;
-  const expiry = document.getElementById("expiry").value;
-  const ngoId = document.getElementById("selectedNgo").value;
-  const safety = document.getElementById("safetyCheck").checked;
-
-  const foodSelect = document.getElementById("foodItems");
-  const selectedFoods = Array.from(foodSelect.selectedOptions).map(o => o.value);
-  const customFood = document.getElementById("customFood").value;
-
-  if (customFood) selectedFoods.push(customFood);
-
-  if (!donorName || !quantity || !expiry || !ngoId || !safety || selectedFoods.length === 0) {
-    alert("Fill all fields and select NGO & food");
-    return;
+  if (document.getElementById("otherFoodCheck").checked) {
+    foods.push(document.getElementById("otherFoodInput").value);
   }
 
-  await addDoc(collection(db, "donations"), {
-    donorName,
-    donorPhone,
-    donorLocation,
-    foods: selectedFoods,
-    quantity,
-    expiry,
-    ngoId,
-    status: "Posted",
-    createdAt: new Date()
+  const donation = {
+    foods,
+    quantity: document.getElementById("quantity").value,
+    expiry: document.getElementById("expiry").value,
+    location: document.getElementById("location").value,
+    delivery: document.querySelector("input[name=delivery]:checked").value,
+    status: "Posted"
+  };
+
+  donations.push(donation);
+  localStorage.setItem("donations", JSON.stringify(donations));
+
+  mealsSaved += Number(donation.quantity);
+  localStorage.setItem("mealsSaved", mealsSaved);
+
+  alert("Donation Posted Successfully!");
+  updateStatus();
+  updateImpact();
+}
+
+// ---------- SELECT NGO ----------
+function selectNGO(id) {
+  donations[donations.length - 1].status = "Assigned to NGO";
+  localStorage.setItem("donations", JSON.stringify(donations));
+  alert("NGO selected successfully!");
+  updateStatus();
+}
+
+// ---------- UPDATE STATUS ----------
+function updateStatus() {
+  const list = document.getElementById("donationStatus");
+  list.innerHTML = "";
+
+  donations.forEach(d => {
+    const li = document.createElement("li");
+    li.textContent = `${d.foods.join(", ")} → ${d.status}`;
+    list.appendChild(li);
   });
-
-  document.getElementById("status").innerText = "✅ Donation sent to NGO";
-  alert("Donation posted successfully!");
-};
-
-// Helpers
-function donorNameInput() {
-  return document.getElementById("donorName").value;
-}
-function donorPhoneInput() {
-  return document.getElementById("donorPhone").value;
-}
-function donorLocationInput() {
-  return document.getElementById("donorLocation").value;
 }
 
-// Load NGO data on page load
+// ---------- UPDATE IMPACT ----------
+function updateImpact() {
+  document.getElementById("impact").textContent =
+    `Meals Saved: ${mealsSaved}`;
+}
+
+// ---------- INIT ----------
 loadNGOs();
+updateStatus();
+updateImpact();

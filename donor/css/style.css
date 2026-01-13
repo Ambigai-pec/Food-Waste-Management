@@ -1,8 +1,160 @@
-body { font-family: Arial, sans-serif; background: #f4f6f8; padding: 20px; }
-h1 { text-align: center; }
-.card { background: #fff; padding: 20px; margin: 20px auto; width: 90%; max-width: 500px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-input, select, button { display: block; width: 100%; margin: 8px 0; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
-button { background: #2ecc71; border: none; color: white; cursor: pointer; font-weight: bold; }
-button:hover { background: #27ae60; }
-label { font-weight: bold; margin-top: 10px; display: block; }
-#status { font-weight: bold; color: #e67e22; }
+/* ==============================
+   GLOBAL RESET & BASE
+================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: linear-gradient(135deg, #e8f5e9, #ffffff);
+  color: #2e7d32;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+/* ==============================
+   MAIN CONTAINER
+================================ */
+.container {
+  background: #ffffff;
+  width: 100%;
+  max-width: 720px;
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(46, 125, 50, 0.15);
+}
+
+/* ==============================
+   HEADINGS
+================================ */
+h1, h2, h3 {
+  text-align: center;
+  color: #1b5e20;
+  margin-bottom: 18px;
+}
+
+h3 {
+  margin-top: 30px;
+  border-bottom: 2px solid #a5d6a7;
+  padding-bottom: 6px;
+}
+
+/* ==============================
+   LABELS
+================================ */
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+/* ==============================
+   INPUTS & SELECT
+================================ */
+input,
+select,
+textarea,
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border-radius: 6px;
+  border: 1px solid #c8e6c9;
+  font-size: 15px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.4);
+}
+
+/* ==============================
+   CHECKBOX & RADIO GROUPS
+================================ */
+.checkbox-group,
+.radio-group {
+  margin-top: 10px;
+  padding: 12px;
+  background: #f1f8e9;
+  border-radius: 6px;
+}
+
+.checkbox-group label,
+.radio-group label {
+  display: block;
+  font-weight: normal;
+  color: #33691e;
+  margin-bottom: 6px;
+}
+
+.checkbox-group input[type="text"] {
+  margin-top: 8px;
+}
+
+/* ==============================
+   BUTTON
+================================ */
+button {
+  margin-top: 20px;
+  background: linear-gradient(135deg, #43a047, #2e7d32);
+  color: #ffffff;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(46, 125, 50, 0.3);
+}
+
+/* ==============================
+   NGO LIST & STATUS LIST
+================================ */
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+}
+
+ul li {
+  background: #f1f8e9;
+  border-left: 6px solid #4caf50;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  color: #1b5e20;
+  font-size: 14px;
+}
+
+/* ==============================
+   IMPACT SECTION
+================================ */
+#impact {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #1b5e20;
+  text-align: center;
+  font-size: 16px;
+}
+
+/* ==============================
+   RESPONSIVE DESIGN
+================================ */
+@media (max-width: 600px) {
+  .container {
+    padding: 20px;
+  }
+}

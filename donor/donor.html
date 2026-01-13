@@ -2,57 +2,60 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Donor Dashboard</title>
+  <title>Donor Dashboard – Food Waste Management</title>
   <link rel="stylesheet" href="css/style.css">
-
-  <!-- Firebase SDK -->
-  <script type="module" src="js/donor.js"></script>
 </head>
 <body>
 
-<h1>🍱 Donor Dashboard</h1>
+<div class="container">
+  <h2>🍱 Donor Dashboard</h2>
 
-<!-- NGO Requests -->
-<section class="card">
-  <h2>🏥 NGO Food Requests</h2>
-  <ul id="ngoList">Loading NGO requests...</ul>
-</section>
+  <!-- POST DONATION -->
+  <h3>Post Food Donation</h3>
 
-<!-- Donation Form -->
-<section class="card">
-  <h2>➕ Donate Food</h2>
+  <label>Food Type</label>
+  <div class="checkbox-group">
+    <label><input type="checkbox" value="Rice"> Rice</label>
+    <label><input type="checkbox" value="Chapati"> Chapati</label>
+    <label><input type="checkbox" value="Curry"> Curry</label>
+    <label><input type="checkbox" value="Fruits"> Fruits</label>
+    <label>
+      <input type="checkbox" id="otherFoodCheck"> Other
+      <input type="text" id="otherFoodInput" placeholder="Enter food name">
+    </label>
+  </div>
 
-  <input id="donorName" placeholder="Donor Name">
-  <input id="donorPhone" placeholder="Phone">
-  <input id="donorLocation" placeholder="Your Location">
-
-  <label>Select Food Items (Multiple)</label>
-  <select id="foodItems" multiple>
-    <option>Rice</option>
-    <option>Chapati</option>
-    <option>Vegetable Curry</option>
-    <option>Biriyani</option>
-  </select>
-
-  <input id="customFood" placeholder="Other food (optional)">
-
-  <label>Quantity (People Served)</label>
+  <label>Quantity (No. of people)</label>
   <input type="number" id="quantity">
 
   <label>Expiry Time</label>
   <input type="datetime-local" id="expiry">
 
-  <label>Select NGO</label>
-  <select id="selectedNgo"></select>
+  <label>Location</label>
+  <input type="text" id="location" placeholder="Auto / Manual location">
 
-  <label>
-    <input type="checkbox" id="safetyCheck">
-    I followed food safety guidelines
-  </label>
+  <label>Delivery Mode</label>
+  <div class="radio-group">
+    <label><input type="radio" name="delivery" value="Self" checked> I will deliver</label>
+    <label><input type="radio" name="delivery" value="Volunteer"> Assign Volunteer</label>
+  </div>
 
   <button onclick="postDonation()">Post Donation</button>
-  <p id="status"></p>
-</section>
 
+  <!-- NGO REQUEST LIST -->
+  <h3>NGO Food Requests (Urgent First)</h3>
+  <ul id="ngoList"></ul>
+
+  <!-- DONATION STATUS -->
+  <h3>Your Donation Status</h3>
+  <ul id="donationStatus"></ul>
+
+  <!-- IMPACT -->
+  <h3>🌍 Your Impact</h3>
+  <p id="impact">Meals Saved: 0</p>
+
+</div>
+
+<script src="js/donor.js"></script>
 </body>
 </html>
