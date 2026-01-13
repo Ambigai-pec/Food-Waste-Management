@@ -1,67 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Donor Dashboard</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <title>Donor Dashboard - Food Waste Management</title>
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Firebase SDK -->
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
 </head>
 <body>
 
-<h2>🍱 Food Waste Management – Donor</h2>
+<h1>🍱 Donor Dashboard</h1>
 
-<!-- LOGIN -->
-<div id="loginBox">
-    <input type="text" id="donorName" placeholder="Enter Your Name">
-    <button onclick="login()">Login</button>
-</div>
+<!-- Donor Profile -->
+<section class="card">
+  <h2>👤 Donor Profile</h2>
+  <input type="text" id="donorName" placeholder="Name">
+  <input type="text" id="donorPhone" placeholder="Phone">
+  <input type="text" id="donorLocation" placeholder="Location">
+</section>
 
-<!-- DASHBOARD -->
-<div id="dashboard" style="display:none;">
+<!-- Add Donation -->
+<section class="card">
+  <h2>➕ Add Donation</h2>
 
-<h3>Post Food Donation</h3>
-
-<select id="foodName">
-    <option>Cooked Rice</option>
-    <option>Biryani</option>
+  <label>Food Name</label>
+  <select id="foodName">
+    <option>Rice</option>
     <option>Chapati</option>
-    <option>Packed Food</option>
-    <option>Fruits</option>
-</select>
+    <option>Vegetable Curry</option>
+    <option>Biriyani</option>
+    <option>Other</option>
+  </select>
 
-<select id="foodType">
+  <label>Food Type</label>
+  <select id="foodType">
     <option>Veg</option>
     <option>Non-Veg</option>
-</select>
+  </select>
 
-<input type="number" id="quantity" placeholder="No. of People">
-<input type="time" id="expiry">
+  <label>Quantity (People Served)</label>
+  <input type="number" id="quantity" min="1">
 
-<input type="text" id="location" placeholder="Enter Location">
-<button onclick="autoLocation()">📍 Auto Location</button>
+  <label>Expiry Time</label>
+  <input type="datetime-local" id="expiry">
 
-<select id="delivery">
+  <label>Delivery Mode</label>
+  <select id="delivery">
     <option>Self Delivery</option>
     <option>Assign Volunteer</option>
-</select>
+  </select>
 
-<label>
-<input type="checkbox" id="safety"> I follow food safety guidelines
-</label>
+  <label>
+    <input type="checkbox" id="safetyCheck"> I followed food safety guidelines
+  </label>
 
-<button onclick="postDonation()">Donate Food</button>
+  <button onclick="postDonation()">Post Donation</button>
+</section>
 
-<h3>Nearby NGO Requirements</h3>
-<table>
-<tr>
-<th>NGO</th><th>Food</th><th>Meals</th><th>Urgency</th><th>Action</th>
-</tr>
-<tbody id="ngoList"></tbody>
-</table>
+<!-- Donation Status -->
+<section class="card">
+  <h2>📦 Donation Status</h2>
+  <p id="status">Status: Not Posted</p>
+</section>
 
-<h3>My Donations</h3>
-<ul id="history"></ul>
-
-</div>
-
-<script src="js/donor.js"></script>
+<script type="module" src="js/donor.js"></script>
 </body>
 </html>

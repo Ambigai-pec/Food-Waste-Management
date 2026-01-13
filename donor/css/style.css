@@ -1,34 +1,8 @@
-body{
-    font-family: Arial;
-    background:#eef2f3;
-    padding:20px;
-}
-
-h2,h3{text-align:center}
-
-input,select,button{
-    width:100%;
-    padding:8px;
-    margin:5px 0;
-}
-
-button{
-    background:#27ae60;
-    color:white;
-    border:none;
-}
-
-table{
-    width:100%;
-    background:white;
-    border-collapse:collapse;
-}
-
-td,th{
-    border:1px solid #ccc;
-    padding:8px;
-    text-align:center;
-}
-
-ul{list-style:none;padding:0}
-li{background:white;margin:5px;padding:8px}
+body { font-family: Arial, sans-serif; background: #f4f6f8; padding: 20px; }
+h1 { text-align: center; }
+.card { background: #fff; padding: 20px; margin: 20px auto; width: 90%; max-width: 500px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+input, select, button { display: block; width: 100%; margin: 8px 0; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
+button { background: #2ecc71; border: none; color: white; cursor: pointer; font-weight: bold; }
+button:hover { background: #27ae60; }
+label { font-weight: bold; margin-top: 10px; display: block; }
+#status { font-weight: bold; color: #e67e22; }
