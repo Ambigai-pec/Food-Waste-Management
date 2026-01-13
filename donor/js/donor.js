@@ -1,12 +1,13 @@
-// 🔹 Import Firebase SDKs (Browser-compatible)
+// Firebase imports (browser safe)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { 
-  getFirestore, 
-  collection, 
-  addDoc 
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc
 } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-// 🔹 Firebase configuration (YOUR PROJECT)
+// 🔥 Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyCIfWAFvJis9H7R33cKIQbC0WlGQtMbqK8",
   authDomain: "food-waste-management-9e874.firebaseapp.com",
@@ -16,58 +17,88 @@ const firebaseConfig = {
   appId: "1:973744619806:web:5f73e68be332dd4edb490f"
 };
 
-// 🔹 Initialize Firebase
+// Init
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 🔹 Function called when "Post Donation" button is clicked
+// 🔹 Load NGO Requests
+async function loadNGOs() {
+  const ngoList = document.getElementById("ngoList");
+  const ngoSelect = document.getElementById("selectedNgo");
+
+  ngoList.innerHTML = "";
+  ngoSelect.innerHTML = "";
+
+  const snapshot = await getDocs(collection(db, "ngo_requests"));
+
+  snapshot.forEach(doc => {
+    const ngo = doc.data();
+
+    // List view
+    const li = document.createElement("li");
+    li.innerText = `${ngo.ngoName} → Needs ${ngo.quantity} meals (${ngo.foodNeeded})`;
+    ngoList.appendChild(li);
+
+    // Dropdown
+    const option = document.createElement("option");
+    option.value = doc.id;
+    option.text = ngo.ngoName;
+    ngoSelect.appendChild(option);
+  });
+
+  if (snapshot.empty) {
+    ngoList.innerHTML = "<li>No NGO requests available</li>";
+  }
+}
+
+// 🔹 Post Donation
 window.postDonation = async function () {
 
-  const donorName = document.getElementById("donorName").value;
-  const donorPhone = document.getElementById("donorPhone").value;
-  const donorLocation = document.getElementById("donorLocation").value;
-  const foodName = document.getElementById("foodName").value;
-  const foodType = document.getElementById("foodType").value;
+  const donorName = donorNameInput();
+  const donorPhone = donorPhoneInput();
+  const donorLocation = donorLocationInput();
   const quantity = document.getElementById("quantity").value;
   const expiry = document.getElementById("expiry").value;
-  const deliveryMode = document.getElementById("delivery").value;
-  const safetyChecked = document.getElementById("safetyCheck").checked;
+  const ngoId = document.getElementById("selectedNgo").value;
+  const safety = document.getElementById("safetyCheck").checked;
 
-  // 🔸 Basic validation
-  if (
-    !donorName || 
-    !donorPhone || 
-    !donorLocation || 
-    !foodName || 
-    !quantity || 
-    !expiry || 
-    !safetyChecked
-  ) {
-    alert("Please fill all fields and accept food safety guidelines.");
+  const foodSelect = document.getElementById("foodItems");
+  const selectedFoods = Array.from(foodSelect.selectedOptions).map(o => o.value);
+  const customFood = document.getElementById("customFood").value;
+
+  if (customFood) selectedFoods.push(customFood);
+
+  if (!donorName || !quantity || !expiry || !ngoId || !safety || selectedFoods.length === 0) {
+    alert("Fill all fields and select NGO & food");
     return;
   }
 
-  try {
-    // 🔹 Save donation to Firestore
-    await addDoc(collection(db, "donations"), {
-      donorName: donorName,
-      donorPhone: donorPhone,
-      donorLocation: donorLocation,
-      foodName: foodName,
-      foodType: foodType,
-      quantity: quantity,
-      expiryTime: expiry,
-      deliveryMode: deliveryMode,
-      status: "Posted",
-      createdAt: new Date()
-    });
+  await addDoc(collection(db, "donations"), {
+    donorName,
+    donorPhone,
+    donorLocation,
+    foods: selectedFoods,
+    quantity,
+    expiry,
+    ngoId,
+    status: "Posted",
+    createdAt: new Date()
+  });
 
-    alert("✅ Donation posted successfully!");
-    document.getElementById("status").innerText =
-      "Status: Posted → Waiting for NGO / Volunteer";
-
-  } catch (error) {
-    console.error("Error saving donation:", error);
-    alert("❌ Error posting donation. Check console.");
-  }
+  document.getElementById("status").innerText = "✅ Donation sent to NGO";
+  alert("Donation posted successfully!");
 };
+
+// Helpers
+function donorNameInput() {
+  return document.getElementById("donorName").value;
+}
+function donorPhoneInput() {
+  return document.getElementById("donorPhone").value;
+}
+function donorLocationInput() {
+  return document.getElementById("donorLocation").value;
+}
+
+// Load NGO data on page load
+loadNGOs();
